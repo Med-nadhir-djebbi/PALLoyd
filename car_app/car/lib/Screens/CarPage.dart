@@ -10,7 +10,6 @@ class Carpage extends StatefulWidget {
 }
 
 class _CarpageState extends State<Carpage> {
-  // Small builder for car property containers
   Widget _carPropTile({
     required IconData icon,
     required Color accent,
@@ -88,7 +87,6 @@ class _CarpageState extends State<Carpage> {
                 ),
               ),
               const SizedBox(height: 12),
-              // Diagnostics list
               Expanded(
                 child: ListView(
                   padding: EdgeInsets.zero,
@@ -102,7 +100,7 @@ class _CarpageState extends State<Carpage> {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    // Tire pressure
+
                     _carPropTile(
                       icon: Icons.tire_repair,
                       accent: Colors.blueAccent,
@@ -110,63 +108,58 @@ class _CarpageState extends State<Carpage> {
                       subtitle: 'Average across tires',
                       value: '2.3 bar',
                     ),
-                    // Odometer
+
                     _carPropTile(
                       icon: Icons.speed,
                       accent: Colors.indigoAccent,
                       title: 'Odometer',
                       value: '58,231 km',
                     ),
-                    // Oil pressure
+
                     _carPropTile(
                       icon: Icons.oil_barrel,
                       accent: Colors.orangeAccent,
                       title: 'Oil Pressure',
                       value: '3.1 bar',
                     ),
-                    // Oil level
+
                     _carPropTile(
                       icon: Icons.oil_barrel,
                       accent: Colors.green,
                       title: 'Oil Level',
                       value: 'OK',
                     ),
-                    // Battery status
+
                     _carPropTile(
                       icon: Icons.battery_full,
                       accent: Colors.green,
                       title: 'Battery',
                       value: '12.4 V',
                     ),
-                    // Coolant temperature
                     _carPropTile(
                       icon: Icons.thermostat,
                       accent: Colors.lightBlue,
                       title: 'Coolant Temp',
                       value: '90 °C',
                     ),
-                    // Brake fluid
                     _carPropTile(
                       icon: Icons.hardware,
                       accent: Colors.green,
                       title: 'Brake Fluid',
                       value: 'OK',
                     ),
-                    // Lights status
                     _carPropTile(
                       icon: Icons.light_mode,
                       accent: Colors.amber,
                       title: 'Lights',
                       value: 'AUTO',
                     ),
-                    // Doors lock
                     _carPropTile(
                       icon: Icons.lock,
                       accent: Colors.green,
                       title: 'Doors',
                       value: 'Locked',
                     ),
-                    // Engine status
                     _carPropTile(
                       icon: Icons.car_repair,
                       accent: Colors.green,
@@ -176,7 +169,6 @@ class _CarpageState extends State<Carpage> {
                   ],
                 ),
               ),
-              // ...existing page content goes here...
             ],
           ),
         ),

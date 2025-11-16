@@ -10,7 +10,6 @@ class Coachingpage extends StatefulWidget {
 }
 
 class _CoachingpageState extends State<Coachingpage> {
-  // Sample trips; replace with backend data when available
   final List<Map<String, dynamic>> _trips = [
     {
       'date': '2025-11-15 08:10',
@@ -47,10 +46,8 @@ class _CoachingpageState extends State<Coachingpage> {
     },
   ];
 
-  // Track expanded tiles; allow multiple open
   final Set<int> _expanded = {};
 
-  // Small metric chip
   Widget _metric(IconData icon, String text, {Color? color}) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -68,7 +65,6 @@ class _CoachingpageState extends State<Coachingpage> {
     );
   }
 
-  // Trip container with expandable description
   Widget _tripCard(int index, Map<String, dynamic> t) {
     final bool isOpen = _expanded.contains(index);
     final Color accent = (t['score'] as int) >= 75
@@ -99,7 +95,6 @@ class _CoachingpageState extends State<Coachingpage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header row
             Row(
               children: [
                 Icon(Icons.route, color: accent),
@@ -123,7 +118,6 @@ class _CoachingpageState extends State<Coachingpage> {
               ],
             ),
             const SizedBox(height: 10),
-            // Summary metrics
             Wrap(
               spacing: 16,
               runSpacing: 8,
@@ -135,7 +129,6 @@ class _CoachingpageState extends State<Coachingpage> {
                     color: accent),
               ],
             ),
-            // Expanded details
             AnimatedCrossFade(
               crossFadeState:
                   isOpen ? CrossFadeState.showFirst : CrossFadeState.showSecond,
@@ -145,7 +138,6 @@ class _CoachingpageState extends State<Coachingpage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Monitoring lines
                     _detailLine(
                       icon: Icons.speed,
                       color: Colors.amber,
@@ -216,7 +208,6 @@ class _CoachingpageState extends State<Coachingpage> {
 
   @override
   Widget build(BuildContext context) {
-    // Quick summary (optional)
     final totalKm = _trips.fold<double>(0.0, (s, t) => s + (t['distanceKm'] as num).toDouble());
     final totalMin = _trips.fold<int>(0, (s, t) => s + (t['durationMin'] as int));
     final overallAvg = totalMin == 0 ? 0 : totalKm / (totalMin / 60.0);
@@ -230,7 +221,6 @@ class _CoachingpageState extends State<Coachingpage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ADD: logo on top
                 const SizedBox(height: 16),
                 Center(
                   child: Image.asset(
@@ -240,7 +230,6 @@ class _CoachingpageState extends State<Coachingpage> {
                   ),
                 ),
                 const SizedBox(height: 12),
-                // Title
                 Text(
                   'Trips coaching',
                   style: TextStyle(
@@ -250,7 +239,6 @@ class _CoachingpageState extends State<Coachingpage> {
                   ),
                 ),
                 const SizedBox(height: 6),
-                // Summary row
                 Wrap(
                   spacing: 16,
                   runSpacing: 8,
@@ -261,7 +249,6 @@ class _CoachingpageState extends State<Coachingpage> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                // Trips list
                 for (int i = 0; i < _trips.length; i++) _tripCard(i, _trips[i]),
               ],
             ),

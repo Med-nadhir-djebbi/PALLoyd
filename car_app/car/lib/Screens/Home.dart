@@ -9,9 +9,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // Example score; replace with your real value (0..100)
+
   int score = 23;
-  // Example status; replace with backend value when available
   bool carHasTrouble = false;
 
   String _titleForScore(int s) {
@@ -20,7 +19,6 @@ class _HomeState extends State<Home> {
     return 'Improve your driving style';
   }
 
-  // Small builder for alert containers
   Widget _alertTile({
     required IconData icon,
     required Color accent,
@@ -69,7 +67,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-  // Car Status tile using the right icon and color
   Widget _carStatusTile() {
     final hasTrouble = carHasTrouble;
     final accent = hasTrouble ? Colors.redAccent : Colors.green;
@@ -100,7 +97,6 @@ class _HomeState extends State<Home> {
               children: [
                 const SizedBox(height: 16),
           
-                // App logo
                 Center(
                   child: Image.asset(
                     'assets/logo.png',
@@ -131,7 +127,6 @@ class _HomeState extends State<Home> {
                 const SizedBox(height: 16),
                 ScoreBar(score: score, height: 16),
           
-                // Car Status section
                 const SizedBox(height: 24),
                 Text(
                   'Car Status',
@@ -145,7 +140,6 @@ class _HomeState extends State<Home> {
                 const SizedBox(height: 12),
                 _carStatusTile(),
           
-                // Alertes section
                 const SizedBox(height: 24),
                 Text(
                   'Alertes',
@@ -183,7 +177,7 @@ class _HomeState extends State<Home> {
 class ScoreBar extends StatelessWidget {
   const ScoreBar({super.key, required this.score, this.height = 14});
 
-  final int score; // 0..100
+  final int score; 
   final double height;
 
   @override
@@ -205,7 +199,7 @@ class ScoreBar extends StatelessWidget {
             borderRadius: BorderRadius.circular(height / 2),
             child: Stack(
               children: [
-                // Background
+
                 Container(
                   width: totalWidth,
                   height: height,
@@ -213,7 +207,7 @@ class ScoreBar extends StatelessWidget {
                       ? Colors.white10
                       : Colors.black12,
                 ),
-                // Filled portion
+
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 350),
                   curve: Curves.easeOut,

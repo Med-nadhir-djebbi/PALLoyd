@@ -8,13 +8,13 @@ This repository contains the 3D assets, texture maps, and render setups for the 
 ## 📸 Visuals
 
 **Full Device View**  
-![Full Device View](images/full_view.png)
+![Full Device View](images/full.png)
 
 **Front Facing (Road View)**  
-![Front View](images/front_view.png)
+![Front View](images/front.png)
 
 **Rear Interface (Driver View)**  
-![Rear View](images/rear_view.png)
+![Rear View](images/back.png)
 
 ## ✨ Key Features (Design Specs)
 

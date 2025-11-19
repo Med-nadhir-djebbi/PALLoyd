@@ -8,13 +8,13 @@ This repository contains the 3D assets, texture maps, and render setups for the 
 ## 📸 Visuals
 
 **Full Device View**  
-The complete assembly showing the mounting arm and the sleek, capsule-shaped chassis.
+![Full Device View](images/full_view.png)
 
 **Front Facing (Road View)**  
-Close-up of the primary lens, branding, and the signature "Friendly Pilot" icon.
+![Front View](images/front_view.png)
 
 **Rear Interface (Driver View)**  
-The driver-facing interface featuring an LED matrix alert display, driver-monitoring camera, and connectivity ports.
+![Rear View](images/rear_view.png)
 
 ## ✨ Key Features (Design Specs)
 

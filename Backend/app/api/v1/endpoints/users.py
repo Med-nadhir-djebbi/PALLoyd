@@ -10,13 +10,13 @@ router = APIRouter()
 
 @router.post("/", response_model=UserRead)
 def register_user(user: UserCreate, session: Session = Depends(get_session)):
-    # Check if CIN already exists
+
     statement = select(User).where(User.cin == user.cin)
     existing_user = session.exec(statement).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="User with this CIN already exists")
 
-    # Hash the password
+
     db_user = User.from_orm(user)
     db_user.hashed_password = get_password_hash(user.password)
     

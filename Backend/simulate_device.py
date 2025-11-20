@@ -2,10 +2,10 @@ import requests
 import time
 import random
 
-# Configuration
+
 BACKEND_URL = "http://localhost:8000/api/v1"
 
-# Real Route: Driving down Champs-Élysées, Paris
+
 START_LAT = 48.8738
 START_LONG = 2.2950
 END_LAT = 48.8656
@@ -33,7 +33,7 @@ def register_user():
     user_id = None
 
     try:
-        # 1. Register
+
         response = requests.post(f"{BACKEND_URL}/users/", json=user_data)
         if response.status_code == 200:
             user = response.json()
@@ -45,7 +45,7 @@ def register_user():
             print(f"[Error] Registration failed: {response.text}")
             return None, None
 
-        # 2. Login to get Token
+
         print("🔑 Logging in...")
         login_data = {
             "username": phone_number,
@@ -58,10 +58,10 @@ def register_user():
             token = token_data["access_token"]
             print("[Info] Login Successful! Token received.")
             
-            # If we didn't get user_id from registration (because user existed), we need to fetch it or assume it
-            # For this simulation, let's assume we registered successfully or we can't proceed easily without an endpoint to get 'me'
-            # But wait, the registration response gave us the ID. If we skipped reg, we don't have ID.
-            # Let's just fail if registration failed for now to keep it simple, or ask user to re-register with new CIN.
+
+
+
+
             if not user_id:
                  print("[Error] Cannot proceed without User ID (Simulation limitation). Please use a new CIN/Phone.")
                  return None, None
@@ -87,7 +87,7 @@ def get_route_points(steps=20):
     return route
 
 def simulate_driving_session():
-    # 1. Register & Login
+
     user_id, token = register_user()
     if not user_id or not token:
         return
@@ -100,16 +100,16 @@ def simulate_driving_session():
     
     route_points = get_route_points(steps=30)
     
-    # Expanded Event Types
+
     event_types = [
         "speeding", "harsh_braking", "harsh_acceleration", 
         "harsh_cornering", "phone_usage", "safe_driving"
     ]
     
-    # Random Weather for this session
+
     weather_options = ["Clear", "Rain", "Snow", "Fog"]
     current_weather = random.choice(weather_options)
-    current_temp = round(random.uniform(-5, 35), 1) # -5 to 35 Celsius
+    current_temp = round(random.uniform(-5, 35), 1)
     
     print(f"[Weather] Condition: {current_weather} | Temp: {current_temp} C")
     if current_weather != "Clear":
@@ -117,7 +117,7 @@ def simulate_driving_session():
 
     try:
         for lat, long in route_points:
-            if random.random() < 0.4: # Increased event chance
+            if random.random() < 0.4:
                 event_type = random.choice(event_types)
                 if event_type != "safe_driving":
                     severity = round(random.uniform(0.3, 0.9), 2)
@@ -139,7 +139,7 @@ def simulate_driving_session():
                         pass
             else:
                 print(f"Driving... 📍 {lat:.6f}, {long:.6f}")
-                # Send heartbeat (tracking)
+
                 payload = {
                         "user_id": user_id,
                         "event_type": "tracking",
@@ -159,7 +159,7 @@ def simulate_driving_session():
             
         print("\n🏁 Reached destination.")
         
-        # Get final score
+
         print("📊 Fetching final UBI Score...")
         try:
             response = requests.get(f"{BACKEND_URL}/scores/{user_id}", headers=headers)
@@ -179,7 +179,7 @@ def simulate_driving_session():
             "user_id": user_id,
             "event_type": "shutdown_attempt",
             "severity": 1.0,
-            "latitude": 0.0, # Last known or 0
+            "latitude": 0.0,
             "longitude": 0.0,
             "details": "User tried to close the app"
         }

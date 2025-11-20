@@ -18,15 +18,15 @@ def login_access_token(
     """
     OAuth2 compatible token login, get an access token for future requests
     """
-    # 1. Find user by phone number (using username field of form)
+
     statement = select(User).where(User.phone_number == form_data.username)
     user = session.exec(statement).first()
     
-    # 2. Verify password
+
     if not user or not security.verify_password(form_data.password, user.hashed_password):
         raise HTTPException(status_code=400, detail="Incorrect phone number or password")
         
-    # 3. Create Token
+
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     return {
         "access_token": security.create_access_token(

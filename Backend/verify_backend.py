@@ -6,7 +6,7 @@ BASE_URL = "http://localhost:8000"
 def test_backend():
     print("Testing Driver Safety Backend...")
 
-    # 1. Check Root
+
     try:
         response = requests.get(f"{BASE_URL}/")
         assert response.status_code == 200
@@ -15,7 +15,7 @@ def test_backend():
         print(f"[Error] Failed to connect to backend: {e}")
         return
 
-    # 2. Create Event
+
     user_id = "user_123"
     event_data = {
         "user_id": user_id,
@@ -33,7 +33,7 @@ def test_backend():
     else:
         print(f"[Error] Failed to create event: {response.text}")
 
-    # 3. Get Score
+
     response = requests.get(f"{BASE_URL}/api/v1/scores/{user_id}")
     if response.status_code == 200:
         print("[Info] Score retrieved successfully.")

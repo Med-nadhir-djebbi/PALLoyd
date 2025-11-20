@@ -16,11 +16,11 @@ def create_event(
     session: Session = Depends(get_session),
     current_user: User = Depends(deps.get_current_user)
 ):
-    # Verify the user_id matches the token owner
+
     if event.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not authorized to send events for this user")
     
-    # Check for Shutdown Attempt
+
     if event.event_type == "shutdown_attempt":
         print(f"[Alert] IMMEDIATE ALERT: User {current_user.full_name} is trying to shut down!")
         msg = (

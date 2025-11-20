@@ -10,14 +10,14 @@ class UserCreate(BaseModel):
 
     @validator('phone_number')
     def validate_tunisian_phone(cls, v):
-        # Remove spaces and dashes
+
         v = v.replace(" ", "").replace("-", "")
         
-        # Check if it starts with +216 or 216
+
         if not (v.startswith("+216") or v.startswith("216")):
             raise ValueError('Phone number must start with +216')
         
-        # Extract the actual number part
+
         number_part = v.replace("+216", "").replace("216", "", 1)
         
         if not number_part.isdigit() or len(number_part) != 8:

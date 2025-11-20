@@ -6,28 +6,28 @@ import os
 def run_full_system():
     print("[System] Starting Driver Safety System...")
 
-    # 1. Start Backend (Server + Watchdog)
+
     print("[System] Launching Backend (FastAPI + Watchdog)...")
     backend_process = subprocess.Popen(
         [sys.executable, "-m", "uvicorn", "app.main:app", "--reload"],
         cwd=os.getcwd(),
-        # stdout=subprocess.PIPE, # Uncomment to hide backend logs
-        # stderr=subprocess.PIPE
+
+
     )
     
-    # Wait for backend to start
+
     time.sleep(5)
     print("[System] Backend is running.")
 
-    # 2. Start Simulation (Client)
-    # Note: Since simulate_device.py is interactive, we launch it in a new terminal window
-    # so the user can interact with it.
+
+
+
     print("[System] Launching Simulation (Client App)...")
     
-    if os.name == 'nt': # Windows
+    if os.name == 'nt':
         subprocess.Popen(["start", "cmd", "/k", sys.executable, "simulate_device.py"], shell=True)
-    else: # Mac/Linux
-        # This is a best-effort guess for common terminals
+    else:
+
         try:
             subprocess.Popen(["x-terminal-emulator", "-e", f"{sys.executable} simulate_device.py"])
         except:

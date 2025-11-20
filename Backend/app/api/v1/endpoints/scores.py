@@ -16,7 +16,7 @@ def get_score(
     session: Session = Depends(get_session),
     current_user: User = Depends(deps.get_current_user)
 ):
-    # Verify the user_id matches the token owner
+
     if user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not authorized to view this score")
         safety_level = "Moderate"
@@ -25,7 +25,7 @@ def get_score(
         
     explanation = f"Score based on {len(events)} events."
 
-    # 3. Store/Update Score in DB
+
     new_score = UBIScore(
         user_id=user_id,
         score=round(current_score, 1),

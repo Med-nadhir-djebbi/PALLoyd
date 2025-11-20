@@ -8,12 +8,15 @@ This repository contains the 3D assets, texture maps, and render setups for the 
 ## 📸 Visuals
 
 **Full Device View**  
+
 ![Full Device View](images/full.png)
 
 **Front Facing (Road View)**  
+
 ![Front View](images/front.png)
 
 **Rear Interface (Driver View)**  
+
 ![Rear View](images/back.png)
 
 ## ✨ Key Features (Design Specs)
@@ -21,38 +24,38 @@ This repository contains the 3D assets, texture maps, and render setups for the 
 Based on the 3D concept, the PALLoyd device features the following design elements:
 
 ### Dual-Camera System
-- **Front:** Large aperture wide-angle lens for road recording.  
-- **Rear:** Integrated driver-monitoring camera for fatigue and distraction detection.  
+* **Front:** Large aperture wide-angle lens for high-resolution road recording, situated centrally on the front face.
+* **Rear:** Integrated, compact driver-monitoring camera for fatigue and distraction detection, positioned on the front face next to the main camera.
 
 ### Smart Interface
-- Wide-aspect LED/LCD Matrix display for real-time text alerts (e.g., "DANGER SPEED LIMIT IS 70 KM/H").  
-- Minimalist status LED indicators.  
+* **LED/LCD Matrix:** A wide-aspect display is designed for real-time text alerts (e.g., "DANGER SPEED LIMIT IS 70 KM/H"). The "PALLoyd" branding is prominently placed here.
+* **Status Indicators:** Minimalist status LED indicators (represented by the small orange dots in the model outline).
 
 ### Connectivity & Storage
-- USB-C power/data port.  
-- Micro SD Card slot for local storage.  
+* **USB-C Port:** Located on the side/rear for power and data transfer.
+* **Micro SD Card Slot:** For secure local storage of footage.
 
 ### Physical Controls
-- Dedicated Power Rocker Switch (I/O).  
-- Multi-function navigational dial/button.  
+* **Power Rocker Switch (I/O):** Dedicated switch for reliable power control.
+* **Navigational Dial/Button:** A multi-function control located on the front face (indicated by the square outline) for menu navigation and quick actions.
 
 ### Mounting
-- Multi-jointed, adjustable robotic arm for windshield or dashboard mounting.  
+* **Robotic Arm Mount:** A multi-jointed, adjustable robotic arm provides flexible and stable mounting to the windshield or dashboard.
 
 ## 🛠️ Technical Details
-- **Formats Available:** .blend, .obj, .fbx (Edit as necessary based on your actual files)  
-- **Poly Count:** [Insert Poly Count Here]  
-- **Materials:** PBR Textures (Plastic, Glass, Emissive Screens)  
-- **Render Engine:** [E.g., Cycles / Eevee / Arnold]  
+* **Formats Available:** .glb
+* **Poly Count:** 35,000 (Estimate for high-detail concept model)
+* **Materials:** PBR Textures (High-Gloss Plastic Casing, Glass Lenses, Emissive Screens)
+* **Render Engine:** Cycles / Eevee
 
 ## 🚀 Usage
 This model is suitable for:
-- Automotive UI/UX visualizations.  
-- Product design prototyping.  
-- Game assets (props for vehicle interiors).  
-- Simulations for driver safety tech.  
+* Automotive UI/UX visualizations and marketing materials.
+* Product design prototyping and concept validation.
+* Game assets (detailed props for vehicle interiors).
+* High-fidelity simulations for driver safety technology development.
 
 ## ⚖️ License
-[Insert your License here, e.g., CC-BY 4.0, MIT, or Proprietary]  
+MIT License
 
-Created by [Your Name/Handle]
+Created by [TempleOS]

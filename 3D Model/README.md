@@ -55,7 +55,5 @@ This model is suitable for:
 * Game assets (detailed props for vehicle interiors).
 * High-fidelity simulations for driver safety technology development.
 
-## ⚖️ License
-MIT License
 
 Created by [TempleOS]

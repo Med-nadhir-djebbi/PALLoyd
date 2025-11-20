@@ -1,41 +1,45 @@
 # Speed Limit Detection - YOLOv8 Training
-
 Train a YOLOv8-Nano model for real-time speed limit sign detection as part of an Advanced Driver Assistance System (ADAS).
 
 **Team:** TempleOS  
 **Event:** Hack For Good 4.0
 
 ## Overview
-
 This project trains a YOLOv8-Nano model to detect speed limit signs for ADAS applications. The model is optimized for:
-
 - Real-time inference on edge devices
 - High accuracy for traffic sign detection
 - Small model size (~3 MB) for embedded systems
 - Multiple speed limit classes (20-120 km/h + stop signs)
 
 ## Dataset
-
 - **Total Images:** 3,421
 - **Training Set:** 2,743 images
 - **Validation Set:** 678 images
 - **Classes:** 11 (speed limits 20-120 km/h + stop sign)
 
 ### Classes
+| ID | Class Name        | Description              |
+|----|-------------------|--------------------------|
+| 0  | speed_limit_100   | 100 km/h speed limit     |
+| 1  | speed_limit_120   | 120 km/h speed limit     |
+| 2  | speed_limit_20    | 20 km/h speed limit      |
+| 3  | speed_limit_30    | 30 km/h speed limit      |
+| 4  | speed_limit_40    | 40 km/h speed limit      |
+| 5  | speed_limit_50    | 50 km/h speed limit      |
+| 6  | speed_limit_60    | 60 km/h speed limit      |
+| 7  | speed_limit_70    | 70 km/h speed limit      |
+| 8  | speed_limit_80    | 80 km/h speed limit      |
+| 9  | speed_limit_90    | 90 km/h speed limit      |
+| 10 | stop              | Stop sign                |
 
-| ID | Class Name | Description |
-|----|------------|-------------|
-| 0 | speed_limit_100 | 100 km/h speed limit |
-| 1 | speed_limit_120 | 120 km/h speed limit |
-| 2 | speed_limit_20 | 20 km/h speed limit |
-| 3 | speed_limit_30 | 30 km/h speed limit |
-| 4 | speed_limit_40 | 40 km/h speed limit |
-| 5 | speed_limit_50 | 50 km/h speed limit |
-| 6 | speed_limit_60 | 60 km/h speed limit |
-| 7 | speed_limit_70 | 70 km/h speed limit |
-| 8 | speed_limit_80 | 80 km/h speed limit |
-| 9 | speed_limit_90 | 90 km/h speed limit |
-| 10 | stop | Stop sign |
+### Dataset Source
+This project uses the publicly available **Speed Limit Signs** dataset hosted on Roboflow Universe:
+
+**Link:** https://universe.roboflow.com/omar-magharba-czzu8/speed-limit-m0jcw/dataset/4  
+**Author:** Omar Magharba  
+**License:** CC BY 4.0  
+**Direct download (YOLOv8 format):** Available on the Roboflow page above (export as “YOLOv8”)
+
 
 ## Requirements
 ```bash

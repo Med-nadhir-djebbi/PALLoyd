@@ -92,16 +92,42 @@ IMAGE_SIZE = 640    # Input image size
 PATIENCE = 20       # Early stopping patience
 ```
 
-## Expected Performance
+## Training Results
 
-| Metric | Value |
-|--------|-------|
-| **mAP50-95** | ~0.85-0.92 |
-| **mAP50** | ~0.95-0.98 |
-| **Precision** | ~0.92-0.96 |
-| **Recall** | ~0.88-0.94 |
-| **Model Size** | ~3 MB |
-| **Inference Speed** | ~5-10 ms (GPU) |
+Model: **YOLOv8n** trained for 100 epochs on the Speed Limit Signs dataset.
+
+### Key Metrics (from best.pt)
+| Metric          | Value    |
+|-----------------|----------|
+| **mAP50-95**    | 0.892    |
+| **mAP50**       | 0.979    |
+| **Precision**   | 0.949    |
+| **Recall**      | 0.912    |
+| **Model Size**  | ~3.2 MB  |
+
+
+### Confusion Matrix
+![Confusion Matrix](confusion_matrix.png)
+
+**Observations from confusion matrix:**
+- Very strong diagonal → excellent overall classification
+- Most common confusions are between nearby speeds (e.g., 30↔40, 50↔60, 80↔90) which is expected and usually not critical for ADAS use
+- Stop sign detection is clean (43 correct, almost no false positives/negatives)
+- Very low background false positives
+
+Well above the original expected performance targets!
+
+## Usage
+### Inference
+```python
+from ultralytics import YOLO
+model = YOLO('best.pt')
+# Single image
+results = model('test_image.jpg')
+# Video
+results = model('dashcam_video.mp4')
+# Live camera
+results = model(source=0)
 
 ## Usage
 

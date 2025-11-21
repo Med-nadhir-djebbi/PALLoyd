@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sqlmodel
+psycopg2-binary
+pydantic
+pydantic-settings
+python-dotenv
+requests
+pyserial
+twilio
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart

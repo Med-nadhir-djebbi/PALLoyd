@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Grid, Card, Text, NumberInput, Button, Group, Title, Paper, Divider, Notification } from '@mantine/core';
+import { IconDeviceFloppy, IconCheck } from '@tabler/icons-react';
 
 const AdminSettings = () => {
     const [basePrice, setBasePrice] = useState(1000);
@@ -7,9 +9,9 @@ const AdminSettings = () => {
         silver: { minScore: 70, discount: 10 },
         bronze: { minScore: 0, discount: 0 },
     });
+    const [saved, setSaved] = useState(false);
 
     useEffect(() => {
-        // Load from localStorage or use defaults
         const storedBasePrice = localStorage.getItem('palloyd_basePrice');
         const storedCategories = localStorage.getItem('palloyd_categories');
 
@@ -20,127 +22,130 @@ const AdminSettings = () => {
     const handleSave = () => {
         localStorage.setItem('palloyd_basePrice', basePrice);
         localStorage.setItem('palloyd_categories', JSON.stringify(categories));
-        alert('Configuration sauvegardée !');
+        setSaved(true);
+        setTimeout(() => setSaved(false), 3000);
     };
 
-    const handleCategoryChange = (level, field, value) => {
+    const updateCategory = (tier, field, value) => {
         setCategories(prev => ({
             ...prev,
-            [level]: { ...prev[level], [field]: parseInt(value) }
+            [tier]: { ...prev[tier], [field]: value }
         }));
     };
 
     return (
-        <div className="p-6">
-            <h2 className="text-3xl font-bold text-lloyd-blue mb-6">Administration & Configuration</h2>
+        <div>
+            <Title order={2} c="lloydBlue" mb="lg">Configuration Admin</Title>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Pricing Configuration */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <h3 className="text-xl font-bold text-gray-800 mb-4">Configuration Tarifaire</h3>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Prix de Base Annuel (TND)</label>
-                        <input
-                            type="number"
-                            value={basePrice}
-                            onChange={(e) => setBasePrice(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lloyd-blue focus:border-transparent"
-                        />
-                    </div>
-                    <p className="text-sm text-gray-500">Ce prix servira de base pour le calcul des primes avant application des réductions basées sur le score.</p>
-                </div>
+            <Grid>
+                <Grid.Col span={{ base: 12, md: 6 }}>
+                    <Card shadow="sm" padding="lg" radius="md" withBorder>
+                        <Card.Section withBorder inheritPadding py="xs">
+                            <Text fw={700}>Prix de Base</Text>
+                        </Card.Section>
 
-                {/* Category Configuration */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <h3 className="text-xl font-bold text-gray-800 mb-4">Catégories & Réductions</h3>
+                        <Paper p="md" bg="gray.0" mt="md">
+                            <NumberInput
+                                label="Prix de Base Annuel (TND)"
+                                description="Le prix de référence avant application des réductions."
+                                value={basePrice}
+                                onChange={(val) => setBasePrice(val)}
+                                min={0}
+                                step={50}
+                                allowNegative={false}
+                            />
+                        </Paper>
+                    </Card>
+                </Grid.Col>
 
-                    <div className="space-y-4">
-                        {/* Gold */}
-                        <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-100">
-                            <h4 className="font-bold text-yellow-800 mb-2">Or (Gold)</h4>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-xs text-gray-600">Score Min.</label>
-                                    <input
-                                        type="number"
+                <Grid.Col span={{ base: 12, md: 6 }}>
+                    <Card shadow="sm" padding="lg" radius="md" withBorder>
+                        <Card.Section withBorder inheritPadding py="xs">
+                            <Text fw={700}>Catégories & Réductions</Text>
+                        </Card.Section>
+
+                        <div style={{ marginTop: '1rem' }}>
+                            {/* Gold Category */}
+                            <Paper p="sm" withBorder mb="sm" style={{ borderColor: '#FFD700', backgroundColor: '#FFFDF5' }}>
+                                <Text fw={700} c="yellow.8" mb="xs">Catégorie Gold</Text>
+                                <Group grow>
+                                    <NumberInput
+                                        label="Score Min."
                                         value={categories.gold.minScore}
-                                        onChange={(e) => handleCategoryChange('gold', 'minScore', e.target.value)}
-                                        className="w-full p-1 border rounded"
+                                        onChange={(val) => updateCategory('gold', 'minScore', val)}
+                                        min={0} max={100}
                                     />
-                                </div>
-                                <div>
-                                    <label className="block text-xs text-gray-600">Réduction (%)</label>
-                                    <input
-                                        type="number"
+                                    <NumberInput
+                                        label="Réduction (%)"
                                         value={categories.gold.discount}
-                                        onChange={(e) => handleCategoryChange('gold', 'discount', e.target.value)}
-                                        className="w-full p-1 border rounded"
+                                        onChange={(val) => updateCategory('gold', 'discount', val)}
+                                        min={0} max={100}
                                     />
-                                </div>
-                            </div>
-                        </div>
+                                </Group>
+                            </Paper>
 
-                        {/* Silver */}
-                        <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                            <h4 className="font-bold text-gray-700 mb-2">Argent (Silver)</h4>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-xs text-gray-600">Score Min.</label>
-                                    <input
-                                        type="number"
+                            {/* Silver Category */}
+                            <Paper p="sm" withBorder mb="sm" style={{ borderColor: '#C0C0C0', backgroundColor: '#F8F9FA' }}>
+                                <Text fw={700} c="gray.7" mb="xs">Catégorie Silver</Text>
+                                <Group grow>
+                                    <NumberInput
+                                        label="Score Min."
                                         value={categories.silver.minScore}
-                                        onChange={(e) => handleCategoryChange('silver', 'minScore', e.target.value)}
-                                        className="w-full p-1 border rounded"
+                                        onChange={(val) => updateCategory('silver', 'minScore', val)}
+                                        min={0} max={100}
                                     />
-                                </div>
-                                <div>
-                                    <label className="block text-xs text-gray-600">Réduction (%)</label>
-                                    <input
-                                        type="number"
+                                    <NumberInput
+                                        label="Réduction (%)"
                                         value={categories.silver.discount}
-                                        onChange={(e) => handleCategoryChange('silver', 'discount', e.target.value)}
-                                        className="w-full p-1 border rounded"
+                                        onChange={(val) => updateCategory('silver', 'discount', val)}
+                                        min={0} max={100}
                                     />
-                                </div>
-                            </div>
-                        </div>
+                                </Group>
+                            </Paper>
 
-                        {/* Bronze */}
-                        <div className="p-4 bg-orange-50 rounded-lg border border-orange-100">
-                            <h4 className="font-bold text-orange-800 mb-2">Bronze</h4>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-xs text-gray-600">Score Min.</label>
-                                    <input
-                                        type="number"
+                            {/* Bronze Category */}
+                            <Paper p="sm" withBorder style={{ borderColor: '#CD7F32', backgroundColor: '#FFF5EE' }}>
+                                <Text fw={700} c="orange.8" mb="xs">Catégorie Bronze</Text>
+                                <Group grow>
+                                    <NumberInput
+                                        label="Score Min."
                                         value={categories.bronze.minScore}
+                                        onChange={(val) => updateCategory('bronze', 'minScore', val)}
+                                        min={0} max={100}
                                         disabled
-                                        className="w-full p-1 border rounded bg-gray-100 text-gray-500"
                                     />
-                                </div>
-                                <div>
-                                    <label className="block text-xs text-gray-600">Réduction (%)</label>
-                                    <input
-                                        type="number"
+                                    <NumberInput
+                                        label="Réduction (%)"
                                         value={categories.bronze.discount}
-                                        onChange={(e) => handleCategoryChange('bronze', 'discount', e.target.value)}
-                                        className="w-full p-1 border rounded"
+                                        onChange={(val) => updateCategory('bronze', 'discount', val)}
+                                        min={0} max={100}
+                                        disabled
                                     />
-                                </div>
-                            </div>
+                                </Group>
+                            </Paper>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </Card>
+                </Grid.Col>
+            </Grid>
 
-            <div className="mt-8 flex justify-end">
-                <button
+            <Divider my="lg" />
+
+            <Group justify="flex-end">
+                <Button
+                    size="md"
+                    color="lloydBlue"
+                    leftSection={<IconDeviceFloppy size={20} />}
                     onClick={handleSave}
-                    className="bg-lloyd-crimson text-white px-6 py-3 rounded-lg font-bold hover:bg-red-700 transition-colors shadow-lg"
                 >
-                    Sauvegarder la Configuration
-                </button>
-            </div>
+                    Enregistrer les Modifications
+                </Button>
+            </Group>
+
+            {saved && (
+                <Notification icon={<IconCheck size={18} />} color="teal" title="Succès" mt="md" onClose={() => setSaved(false)}>
+                    Configuration enregistrée avec succès !
+                </Notification>
+            )}
         </div>
     );
 };

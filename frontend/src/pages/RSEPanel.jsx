@@ -1,134 +1,172 @@
-import React, { useEffect, useState } from 'react';
-// import { fetchHeatmapData } from '../services/api'; // API disabled for now
-
-const MOCK_HAZARDS = [
-    { type: 'pothole', lat: 36.8065, lng: 10.1815, severity: 0.8, location: 'Rue de la République' },
-    { type: 'braking', lat: 36.8100, lng: 10.1900, severity: 0.6, location: 'Avenue Habib Bourguiba' },
-    { type: 'accident', lat: 36.8200, lng: 10.1700, severity: 0.9, location: 'Route X' },
-    { type: 'pothole', lat: 36.8000, lng: 10.1600, severity: 0.4, location: 'Place Pasteur' },
-];
+import React, { useState, useEffect } from 'react';
+// import { fetchBlackSpots, sendInfrastructureReport } from '../services/api'; // API disabled
+import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import { Grid, Card, Text, Button, Group, TextInput, Select, Textarea, Notification, Title, Badge, Loader, Center } from '@mantine/core';
+import { IconAlertTriangle, IconMapPin, IconSend, IconCheck } from '@tabler/icons-react';
 
 const MOCK_BLACKSPOTS = [
-    { name: 'Carrefour Route X', risk_score: 95, incidents: 12 },
-    { name: 'Sortie Autoroute A1', risk_score: 88, incidents: 8 },
-    { name: 'Rond-point Lac 2', risk_score: 72, incidents: 5 },
+    { lat: 36.8065, lng: 10.1815, severity: 0.9, risk_score: 95, incidents: 12, type: 'Intersections Dangereuses' },
+    { lat: 36.8150, lng: 10.1600, severity: 0.7, risk_score: 75, incidents: 5, type: 'Zone Scolaire' },
+    { lat: 36.8300, lng: 10.2000, severity: 0.8, risk_score: 82, incidents: 8, type: 'Virage Serré' },
+];
+
+const MOCK_HAZARDS = [
+    { id: 1, type: 'Nid de poule', location: 'Rue de la Liberté', severity: 'Moyenne', lat: 36.800, lng: 10.180 },
+    { id: 2, type: 'Panneau manquant', location: 'Av. Habib Bourguiba', severity: 'Haute', lat: 36.802, lng: 10.182 },
+    { id: 3, type: 'Eclairage défaillant', location: 'Route X', severity: 'Faible', lat: 36.805, lng: 10.185 },
 ];
 
 const RSEPanel = () => {
+    const [blackSpots, setBlackSpots] = useState([]);
     const [hazards, setHazards] = useState([]);
-    const [blackspots, setBlackspots] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [reportStatus, setReportStatus] = useState(null);
+    const [reportForm, setReportForm] = useState({ type: '', location: '', description: '' });
+    const [sendingReport, setSendingReport] = useState(false);
+    const [reportSent, setReportSent] = useState(false);
 
     useEffect(() => {
         // Simulate API call
-        const loadData = async () => {
-            setTimeout(() => {
-                setHazards(MOCK_HAZARDS);
-                setBlackspots(MOCK_BLACKSPOTS);
-                setLoading(false);
-            }, 800);
-        };
-        loadData();
+        setTimeout(() => {
+            setBlackSpots(MOCK_BLACKSPOTS);
+            setHazards(MOCK_HAZARDS);
+            setLoading(false);
+        }, 800);
     }, []);
 
-    const handleSendReport = () => {
-        setReportStatus('sending');
+    const handleReportSubmit = (e) => {
+        e.preventDefault();
+        setSendingReport(true);
+        // Simulate API call
         setTimeout(() => {
-            setReportStatus('sent');
-            alert("Rapport d'infrastructure généré et envoyé aux services municipaux !");
-            setTimeout(() => setReportStatus(null), 3000);
+            setSendingReport(false);
+            setReportSent(true);
+            setReportForm({ type: '', location: '', description: '' });
+            setTimeout(() => setReportSent(false), 3000);
         }, 1500);
     };
 
-    if (loading) return <div className="p-8 text-center">Chargement des données RSE...</div>;
+    if (loading) return <Center h={400}><Loader size="xl" /></Center>;
 
     return (
         <div>
-            <h2 className="text-3xl font-bold text-lloyd-blue mb-6">Initiatives RSE & Intelligence Collective</h2>
+            <Title order={2} c="lloydBlue" mb="lg">Intelligence Routière & RSE</Title>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Black Spots Section */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <h3 className="text-xl font-bold text-lloyd-crimson mb-4 flex items-center gap-2">
-                        <span className="w-3 h-3 rounded-full bg-lloyd-crimson animate-pulse"></span>
-                        Zones à Haut Risque (Black Spots)
-                    </h3>
-                    <p className="text-sm text-gray-500 mb-4">Zones identifiées par l'IA comme accidentogènes basées sur les données de la flotte.</p>
-                    <div className="space-y-3">
-                        {blackspots.map((spot, idx) => (
-                            <div key={idx} className="flex items-center justify-between p-3 bg-red-50 rounded-lg border border-red-100">
-                                <div>
-                                    <span className="font-bold text-gray-800">{spot.name}</span>
-                                    <p className="text-xs text-red-600">{spot.incidents} incidents signalés</p>
-                                </div>
-                                <div className="text-right">
-                                    <span className="text-2xl font-bold text-lloyd-crimson">{spot.risk_score}</span>
-                                    <p className="text-[10px] text-gray-500 uppercase font-bold">Score Risque</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Infrastructure Reporting Section */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <h3 className="text-xl font-bold text-gray-800 mb-4">Signalement aux Municipalités</h3>
-                    <p className="text-gray-600 mb-6">
-                        Générer et envoyer des rapports automatisés aux autorités locales concernant l'état des routes détecté par la flotte.
-                    </p>
-
-                    <div className="space-y-4">
-                        <div className="p-4 border border-gray-200 rounded-lg bg-gray-50">
-                            <h4 className="font-bold text-lloyd-blue">Rapport Mensuel Qualité Route</h4>
-                            <p className="text-sm text-gray-500 mb-3">Inclut une carte thermique des nids-de-poule et incidents de freinage brusque.</p>
-                            <button
-                                onClick={handleSendReport}
-                                disabled={reportStatus === 'sending'}
-                                className={`w-full px-4 py-2 rounded-lg transition-colors font-medium ${reportStatus === 'sent'
-                                        ? 'bg-green-600 text-white'
-                                        : 'bg-lloyd-crimson text-white hover:bg-red-700'
-                                    }`}
-                            >
-                                {reportStatus === 'sending' ? 'Génération en cours...' :
-                                    reportStatus === 'sent' ? 'Rapport Envoyé !' : 'Générer & Envoyer Rapport'}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Detected Hazards List */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 lg:col-span-2">
-                    <h3 className="text-xl font-bold text-gray-800 mb-4">Derniers Dangers Détectés</h3>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-4 py-2 text-gray-600">Type</th>
-                                    <th className="px-4 py-2 text-gray-600">Lieu</th>
-                                    <th className="px-4 py-2 text-gray-600">Sévérité</th>
-                                    <th className="px-4 py-2 text-gray-600">Coordonnées</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-100">
-                                {hazards.map((hazard, idx) => (
-                                    <tr key={idx} className="hover:bg-gray-50">
-                                        <td className="px-4 py-3 capitalize font-medium text-gray-800">{hazard.type}</td>
-                                        <td className="px-4 py-3 text-gray-600">{hazard.location}</td>
-                                        <td className="px-4 py-3">
-                                            <span className={`px-2 py-1 rounded text-xs font-bold ${hazard.severity > 0.7 ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'
-                                                }`}>
-                                                {(hazard.severity * 100).toFixed(0)}%
-                                            </span>
-                                        </td>
-                                        <td className="px-4 py-3 text-xs text-gray-500">{hazard.lat}, {hazard.lng}</td>
-                                    </tr>
+            <Grid>
+                {/* Black Spot Analysis Map */}
+                <Grid.Col span={{ base: 12, lg: 8 }}>
+                    <Card shadow="sm" padding="lg" radius="md" withBorder h={500}>
+                        <Card.Section withBorder inheritPadding py="xs">
+                            <Group justify="space-between">
+                                <Text fw={700}>Zones à Haut Risque (Black Spots)</Text>
+                                <Badge color="red" variant="light">{blackSpots.length} Zones Identifiées</Badge>
+                            </Group>
+                        </Card.Section>
+                        <Card.Section h="100%" mt="sm">
+                            <MapContainer center={[36.8100, 10.1800]} zoom={12} style={{ height: '420px', width: '100%', borderRadius: '0.5rem' }}>
+                                <TileLayer
+                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                />
+                                {blackSpots.map((spot, idx) => (
+                                    <CircleMarker
+                                        key={idx}
+                                        center={[spot.lat, spot.lng]}
+                                        radius={15}
+                                        pathOptions={{ color: 'red', fillColor: '#f03e3e', fillOpacity: 0.5 }}
+                                    >
+                                        <Popup>
+                                            <Text fw={700}>{spot.type}</Text>
+                                            <Text size="xs">Score Risque: {spot.risk_score}</Text>
+                                            <Text size="xs">Incidents: {spot.incidents}</Text>
+                                        </Popup>
+                                    </CircleMarker>
                                 ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+                            </MapContainer>
+                        </Card.Section>
+                    </Card>
+                </Grid.Col>
+
+                {/* Infrastructure Reporting Form */}
+                <Grid.Col span={{ base: 12, lg: 4 }}>
+                    <Card shadow="sm" padding="lg" radius="md" withBorder>
+                        <Card.Section withBorder inheritPadding py="xs">
+                            <Group>
+                                <IconSend size={20} />
+                                <Text fw={700}>Signalement aux Municipalités</Text>
+                            </Group>
+                        </Card.Section>
+
+                        <form onSubmit={handleReportSubmit} style={{ marginTop: '1rem' }}>
+                            <Select
+                                label="Type d'Incident"
+                                placeholder="Sélectionner..."
+                                data={['Nid de poule', 'Panneau manquant', 'Eclairage défaillant', 'Marquage effacé']}
+                                value={reportForm.type}
+                                onChange={(val) => setReportForm({ ...reportForm, type: val })}
+                                mb="sm"
+                                required
+                            />
+                            <TextInput
+                                label="Localisation"
+                                placeholder="Adresse ou Coordonnées"
+                                leftSection={<IconMapPin size={16} />}
+                                value={reportForm.location}
+                                onChange={(e) => setReportForm({ ...reportForm, location: e.target.value })}
+                                mb="sm"
+                                required
+                            />
+                            <Textarea
+                                label="Description"
+                                placeholder="Détails supplémentaires..."
+                                value={reportForm.description}
+                                onChange={(e) => setReportForm({ ...reportForm, description: e.target.value })}
+                                mb="md"
+                                minRows={3}
+                            />
+
+                            <Button
+                                type="submit"
+                                fullWidth
+                                color="lloydBlue"
+                                loading={sendingReport}
+                                leftSection={<IconSend size={16} />}
+                            >
+                                Générer & Envoyer Rapport
+                            </Button>
+                        </form>
+
+                        {reportSent && (
+                            <Notification icon={<IconCheck size={18} />} color="teal" title="Succès" mt="md" onClose={() => setReportSent(false)}>
+                                Rapport envoyé aux services municipaux !
+                            </Notification>
+                        )}
+                    </Card>
+
+                    {/* Detected Hazards List */}
+                    <Card shadow="sm" padding="lg" radius="md" withBorder mt="lg">
+                        <Card.Section withBorder inheritPadding py="xs">
+                            <Group>
+                                <IconAlertTriangle size={20} color="orange" />
+                                <Text fw={700}>Dangers Détectés (Temps Réel)</Text>
+                            </Group>
+                        </Card.Section>
+                        <div style={{ maxHeight: '200px', overflowY: 'auto', marginTop: '1rem' }}>
+                            {hazards.map((hazard) => (
+                                <Group key={hazard.id} justify="space-between" mb="xs" p="xs" bg="gray.0" style={{ borderRadius: '4px' }}>
+                                    <div>
+                                        <Text size="sm" fw={500}>{hazard.type}</Text>
+                                        <Text size="xs" c="dimmed">{hazard.location}</Text>
+                                    </div>
+                                    <Badge color={hazard.severity === 'Haute' ? 'red' : hazard.severity === 'Moyenne' ? 'orange' : 'yellow'} size="sm">
+                                        {hazard.severity}
+                                    </Badge>
+                                </Group>
+                            ))}
+                        </div>
+                    </Card>
+                </Grid.Col>
+            </Grid>
         </div>
     );
 };

@@ -19,11 +19,29 @@ def login_access_token(
     OAuth2 compatible token login, get an access token for future requests
     """
 
+    print(f"Login attempt for: {form_data.username}")
     statement = select(User).where(User.phone_number == form_data.username)
-    user = session.exec(statement).first()
+    try:
+        user = session.exec(statement).first()
+        print(f"User found: {user}")
+    except Exception as e:
+        print(f"Error querying user: {e}")
+        raise e
     
 
-    if not user or not security.verify_password(form_data.password, user.hashed_password):
+    if not user:
+        print("User not found")
+        raise HTTPException(status_code=400, detail="Incorrect phone number or password")
+        
+    try:
+        valid = security.verify_password(form_data.password, user.hashed_password)
+        print(f"Password valid: {valid}")
+    except Exception as e:
+        print(f"Error verifying password: {e}")
+        raise e
+
+    if not valid:
+        print("Invalid password")
         raise HTTPException(status_code=400, detail="Incorrect phone number or password")
         
 

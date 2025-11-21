@@ -17,8 +17,10 @@ def register_user(user: UserCreate, session: Session = Depends(get_session)):
         raise HTTPException(status_code=400, detail="User with this CIN already exists")
 
 
-    db_user = User.from_orm(user)
-    db_user.hashed_password = get_password_hash(user.password)
+    user_data = user.dict()
+    if "password" in user_data:
+        del user_data["password"]
+    db_user = User(**user_data, hashed_password=get_password_hash(user.password))
     
     session.add(db_user)
     session.commit()

@@ -160,7 +160,7 @@ def simulate_driving_session():
         print("\n🏁 Reached destination.")
         
 
-        print("📊 Fetching final UBI Score...")
+        print("Fetching final UBI Score...")
         try:
             response = requests.get(f"{BACKEND_URL}/scores/{user_id}", headers=headers)
             if response.status_code == 200:

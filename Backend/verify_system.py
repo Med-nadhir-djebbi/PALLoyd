@@ -138,7 +138,7 @@ def test_ml_scoring(user_id, token):
                 print(f"✓ Score calculation verified (expected {expected_score})")
                 return True
             else:
-                print(f"⚠ Score mismatch: got {score}, expected {expected_score}")
+                print(f"WARNING: Score mismatch: got {score}, expected {expected_score}")
                 return True  # Still pass, just different than expected
         else:
             print(f"✗ Scoring failed: {response.text}")
@@ -191,7 +191,7 @@ def run_comprehensive_test():
     print("  ✓ Event Storage")
     print("  ✓ ML Model Integration (TensorFlow)")
     print("  ✓ Score Calculation")
-    print("\nThe system is fully operational! 🚀")
+    print("\nThe system is fully operational!")
 
 if __name__ == "__main__":
     run_comprehensive_test()

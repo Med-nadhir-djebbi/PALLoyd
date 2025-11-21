@@ -102,10 +102,6 @@ Model: **YOLOv8n** trained for 100 epochs on the New Pothole Detection dataset.
 | **Recall**      | 0.76     |
 | **Model Size**  | ~6.2 MB  |
 
-### Training Curves
-
-![Training Curves](results.png)
-
 **Observations from training curves:**
 - Loss curves (box, cls, dfl) show steady decrease over 100 epochs
 - Precision improved from ~0.5 to ~0.85
@@ -114,7 +110,7 @@ Model: **YOLOv8n** trained for 100 epochs on the New Pothole Detection dataset.
 
 ### Confusion Matrix
 
-![Confusion Matrix](confusion_matrix.png)
+![Confusion Matrix](confusion_matrix2.png)
 
 | Actual / Predicted | Pothole | Background |
 |--------------------|---------|------------|

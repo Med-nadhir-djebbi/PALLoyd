@@ -30,7 +30,7 @@ Our custom 3D model brings the PALLoyd device to life with a **sleek capsule cha
 - LED matrix warning display  
 - Connectivity ports for edge compute unit  
 
-![PALLoyd Front View](3D%20Model/images/front.png)
+![PALLoyd Front View](3D%20Model/images/latest.png)
 ![PALLoyd Rear View](3D%20Model/images/back.png)
 ![PALLoyd Full Device](3D%20Model/images/full.png)
 

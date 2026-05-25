@@ -1,4 +1,4 @@
-# 🚗🤖 PALLoyd: The AI Co-Pilot for a Smarter, Safer Drive
+# PALLoyd: The AI Co-Pilot for a Smarter, Safer Drive
 **Hack For Good 4.0 | Team TempleOS**
 
 ![Project Status](https://img.shields.io/badge/Status-Prototype-orange) 
